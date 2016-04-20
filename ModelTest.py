@@ -1,7 +1,8 @@
 from NGramModel import *
-from nltk.corpus import brown
+from BrownDataCleaner import *
 
 text = 'Hello from the other side is a song by Adele S. Trump. She is a very good singer and lyricist'
-print(brown.words(categories='news'))
-QuadGramModel = NGramModel(4, brown)
+
+sents = BrownDataCleaner.clean()
+QuadGramModel = NGramModel(4, sents)
 print(QuadGramModel.backoff.predict(('billion', 'dollar')))

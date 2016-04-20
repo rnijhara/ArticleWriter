@@ -1,6 +1,7 @@
 from nltk.util import ngrams
 from nltk.probability import ConditionalFreqDist
 
+
 class NGramModel:
 
     '''
@@ -26,14 +27,15 @@ class NGramModel:
         self.cfd = ConditionalFreqDist()
         sentences = trainingData
         for sentence in sentences:
-            rawNgrams = ngrams(sentence, order)
+            rawNgrams = ngrams(sentence, 3)
             for ngram in rawNgrams:
                 context = tuple(ngram[:-1])
                 token = ngram[-1]
                 self.cfd[context][token] += 1
 
     def predict(self, context):
-        predictions = list(self.cfd[context].samples())
+        predictions = list(dict(self.cfd[context]).keys())
+        print predictions
         nums = len(predictions)
         print self.order
         finalPredictions = 'the'

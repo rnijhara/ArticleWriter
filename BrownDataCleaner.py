@@ -1,6 +1,7 @@
 from nltk.corpus import brown
 import re
 
+
 class BrownDataCleaner:
 
     '''BrownDataCleaner is used to clean the Brown Corpus.
@@ -33,3 +34,4 @@ class BrownDataCleaner:
             for j in range(0, m):
                 sents_copy[i][j] = sents_copy[i][j].lower()
         print 'Lowered all the words.'
+        return sents_copy

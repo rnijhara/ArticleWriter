@@ -2,15 +2,15 @@
 
 ##Description:
 
-    A simple desktop app for writing articles. It predicts the next possible words while typing.
+A simple desktop app for writing articles. It predicts the next possible words while typing.
 
 ##Technology used:
 
-    Python Language
+Python Language
 
-    NLTK for text processing, learning and prediction
+NLTK for text processing, learning and prediction
 
-    PyQT for frontend
+PyQT for frontend
 
 ##Features:
 
@@ -23,4 +23,4 @@
 
 ##Technical Description:
 
-    Coming Soon
+Coming Soon

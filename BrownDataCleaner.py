@@ -28,7 +28,7 @@ class BrownDataCleaner:
         print 'Removed special chars.'
         sents = None
 
-        print 'Lowercasing all the words...'
+        print 'Lowering all the words...'
         for i in range(0, n):
             m = len(sents_copy[i])
             for j in range(0, m):

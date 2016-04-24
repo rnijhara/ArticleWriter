@@ -1,5 +1,6 @@
 from nltk.util import ngrams
 from nltk.probability import ConditionalFreqDist
+from collections import defaultdict
 
 
 class NGramModel:
@@ -25,13 +26,33 @@ class NGramModel:
         else:
             self.backoff = None
         self.cfd = ConditionalFreqDist()
+        self.predictor = defaultdict(list)
         sentences = trainingData
         for sentence in sentences:
-            rawNgrams = ngrams(sentence, 3)
+            rawNgrams = ngrams(sentence, order)
+            context_list = list()
             for ngram in rawNgrams:
                 context = tuple(ngram[:-1])
                 token = ngram[-1]
                 self.cfd[context][token] += 1
+                context_list.append(context)
+            for context in context_list:
+                words = list(dict(self.cfd[context]).keys())
+                n = len(words)
+                if n == 1:
+                    self.predictor[context].append(words[0])
+                if n == 2:
+                    self.predictor[context].append(words[0])
+                    self.predictor[context].append(words[1])
+                else:
+                    self.predictor[context].append(words[0])
+                    self.predictor[context].append(words[1])
+                    self.predictor[context].append(words[2])
+
+        print self.predictor[('billion', 'dollar')]
+
+
+
 
     def predict(self, context):
         predictions = list(dict(self.cfd[context]).keys())

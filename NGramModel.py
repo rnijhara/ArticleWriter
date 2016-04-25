@@ -59,18 +59,11 @@ class NGramModel:
             print 'prepared', order
 
     def predict(self, context):
-        predictions = list(dict(self.cfd[context]).keys())
-        n = len(predictions)
-        finalPredictions = 'the'
-        if n >= 3:
-            finalPredictions = predictions[0] + ' ' + predictions[1] + ' ' + predictions[2]
-        elif n == 2:
-            finalPredictions = predictions[0] + ' ' + predictions[1]
-        elif n == 1:
-            finalPredictions = predictions[0]
-        elif n == 0 and self.order != 1:
-            finalPredictions = self.backoff.predict(context[1:])
-        return finalPredictions
+        if self.predictor[context] == [] and self.order != 1:
+            print self.order
+            return self.backoff.predict(context[1:])
+        else:
+            return self.predictor[context]
 
     def retrain(self, words):
         if self.order > 1:

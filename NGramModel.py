@@ -28,44 +28,34 @@ class NGramModel:
         self.predictor = defaultdict(list)
         sentences = trainingData
         print 'preparing', order
-        context_list = list()
+        contexts = set()
         for sentence in sentences:
             rawNgrams = ngrams(sentence, order)
             for ngram in rawNgrams:
                 context = tuple(ngram[:-1])
                 token = ngram[-1]
                 self.cfd[context][token] += 1
-                context_list.append(context)
+                contexts.add(context)
         if order == 1:
             words = list(dict(self.cfd[()]).keys())
-            cont = ''
-            self.predictor[cont].append(words[0])
-            self.predictor[cont].append(words[1])
-            self.predictor[cont].append(words[2])
+            context = ()
+            self.predictor[context].append(words[0])
+            self.predictor[context].append(words[1])
+            self.predictor[context].append(words[2])
             print 'prepared 1'
         else:
-            visited = set()
-            for context in context_list:
+            for context in contexts:
                 words = list(dict(self.cfd[context]).keys())
-                cont = str()
-                if order == 4:
-                    cont = context[0] + ' ' + context[1] + ' ' + context[2]
-                elif order == 3:
-                    cont = context[0] + ' ' + context[1]
-                else:
-                    cont = context[0]
                 n = len(words)
-                if cont not in visited:
-                    if n == 1:
-                        self.predictor[cont].append(words[0])
-                    elif n == 2:
-                        self.predictor[cont].append(words[0])
-                        self.predictor[cont].append(words[1])
-                    else:
-                        self.predictor[cont].append(words[0])
-                        self.predictor[cont].append(words[1])
-                        self.predictor[cont].append(words[2])
-                    visited.add(cont)
+                if n == 1:
+                    self.predictor[context].append(words[0])
+                elif n == 2:
+                    self.predictor[context].append(words[0])
+                    self.predictor[context].append(words[1])
+                else:
+                    self.predictor[context].append(words[0])
+                    self.predictor[context].append(words[1])
+                    self.predictor[context].append(words[2])
             print 'prepared', order
 
     def predict(self, context):

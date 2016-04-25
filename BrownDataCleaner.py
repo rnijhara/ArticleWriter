@@ -3,19 +3,18 @@ import re
 
 
 class BrownDataCleaner:
-
-    '''BrownDataCleaner is used to clean the Brown Corpus.
+    """BrownDataCleaner is used to clean the Brown Corpus.
        clean() static method is used for this.
        It may further take category value for the brown corpus as an argument.
-    '''
+    """
     @staticmethod
     def clean():
 
-        '''
+        """
         1. Removes any individual special character.
         2. Lowers all the words.
         :return: list of clean sentences
-        '''
+        """
 
         sents = list(brown.sents())
         sents_copy = list(brown.sents())

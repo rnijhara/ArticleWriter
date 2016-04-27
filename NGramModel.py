@@ -1,7 +1,7 @@
 from nltk.util import ngrams
 from nltk.probability import ConditionalFreqDist
 from collections import defaultdict
-
+from operator import itemgetter
 
 class NGramModel:
     """
@@ -37,41 +37,65 @@ class NGramModel:
                 self.cfd[context][token] += 1
                 contexts.add(context)
         if order == 1:
-            words = list(dict(self.cfd[()]).keys())
             context = ()
-            self.predictor[context].append(words[0])
-            self.predictor[context].append(words[1])
-            self.predictor[context].append(words[2])
+            predictions = dict(self.cfd[context])
+            words = sorted(predictions.items(), key=itemgetter(1), reverse=True)
+            self.predictor[context].append(words[0][0])
+            self.predictor[context].append(words[1][0])
+            self.predictor[context].append(words[2][0])
             print 'prepared 1'
         else:
             for context in contexts:
-                words = list(dict(self.cfd[context]).keys())
+                predictions = dict(self.cfd[context])
+                words = sorted(predictions.items(), key=itemgetter(1), reverse=True)
                 n = len(words)
                 if n == 1:
-                    self.predictor[context].append(words[0])
+                    self.predictor[context].append(words[0][0])
                 elif n == 2:
-                    self.predictor[context].append(words[0])
-                    self.predictor[context].append(words[1])
+                    self.predictor[context].append(words[0][0])
+                    self.predictor[context].append(words[1][0])
                 else:
-                    self.predictor[context].append(words[0])
-                    self.predictor[context].append(words[1])
-                    self.predictor[context].append(words[2])
+                    self.predictor[context].append(words[0][0])
+                    self.predictor[context].append(words[1][0])
+                    self.predictor[context].append(words[2][0])
             print 'prepared', order
 
     def predict(self, context):
         if self.predictor[context] == [] and self.order != 1:
-            print self.order
             return self.backoff.predict(context[1:])
         else:
             return self.predictor[context]
 
     def retrain(self, words):
         if self.order > 1:
-            self.backoff = self.retrain(words[1:])
+            self.backoff = self.backoff.retrain(words[1:])
         else:
             self.backoff = None
         context = tuple(words[:-1])
         token = words[-1]
-        self.cfd[context][token] += 1
+        max1 = self.cfd[context].max()
+        freq = self.cfd[context][max1]
+        self.cfd[context][token] = freq + 1
+        del self.predictor[context]
+        if self.order == 1:
+            context = ()
+            predictions = dict(self.cfd[context])
+            words = sorted(predictions.items(), key=itemgetter(1), reverse=True)
+            self.predictor[context].append(words[0][0])
+            self.predictor[context].append(words[1][0])
+            self.predictor[context].append(words[2][0])
+        else:
+            predictions = dict(self.cfd[context])
+            words = sorted(predictions.items(), key=itemgetter(1), reverse=True)
+            n = len(words)
+            if n == 1:
+                self.predictor[context].append(words[0][0])
+            elif n == 2:
+                self.predictor[context].append(words[0][0])
+                self.predictor[context].append(words[1][0])
+            else:
+                self.predictor[context].append(words[0][0])
+                self.predictor[context].append(words[1][0])
+                self.predictor[context].append(words[2][0])
+            print words
         return self
-

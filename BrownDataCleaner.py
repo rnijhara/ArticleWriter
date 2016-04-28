@@ -25,7 +25,6 @@ class BrownDataCleaner:
                 if not bool(re.search('[A-Za-z0-9]', word)):
                     sents_copy[i].remove(word)
         print 'Removed special chars.'
-        sents = None
 
         print 'Lowering all the words...'
         for i in range(0, n):

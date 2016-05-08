@@ -1,13 +1,18 @@
+from TimeMonitor import *
 from NGramModel import *
 from BrownDataCleaner import *
-from TimeMonitor import *
+import cPickle
 
-t = TimeMonitor()
-t.start(msg='test')
-sents = BrownDataCleaner.clean()
-lm = NGramModel(4, sents)
+t1 = TimeMonitor()
+t2 = TimeMonitor()
+t1.start(msg='Loading file')
+data = open("ngram.bin", "rb")
+t1.stop()
+t2.start(msg='Preparing model')
+lm = cPickle.load(data)
+t2.stop()
 context = ('i', 'love')
-words = ('i', 'love', 'him')
+words = ('malviya', 'chutiya', 'hai')
 lm.backoff.retrain(words)
 n = len(context)
 if n >= 3:
@@ -22,4 +27,3 @@ elif n == 1:
 else:
     print 'this is unigram'
     print lm.backoff.backoff.backoff.predict(context)
-t.stop()

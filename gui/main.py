@@ -244,12 +244,18 @@ class Main(QtGui.QMainWindow):
 
         toolbarAction = QtGui.QAction("Toggle Toolbar", self)
         toolbarAction.triggered.connect(self.toggleToolbar)
+        toolbarAction.setCheckable(True)
+        toolbarAction.setChecked(True)
 
         formatbarAction = QtGui.QAction("Toggle Formatbar", self)
         formatbarAction.triggered.connect(self.toggleFormatbar)
+        formatbarAction.setCheckable(True)
+        formatbarAction.setChecked(True)
 
         statusbarAction = QtGui.QAction("Toggle Statusbar", self)
         statusbarAction.triggered.connect(self.toggleStatusbar)
+        statusbarAction.setCheckable(True)
+        statusbarAction.setChecked(True)
 
         view.addAction(toolbarAction)
         view.addAction(formatbarAction)

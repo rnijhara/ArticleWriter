@@ -24,3 +24,6 @@ PyQT for frontend
 ##Technical Description:
 
 Coming Soon
+
+[Link to the pickled N-Gram Model](https://drive.google.com/open?id=0Bya1UTw2jl9uR1VwVm54REQ4OEE)
+Just save it in the root directory of the Project.

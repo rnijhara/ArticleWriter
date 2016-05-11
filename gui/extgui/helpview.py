@@ -12,7 +12,7 @@ class HelpViewer(QtGui.QDialog):
         self.help.setReadOnly(True)
         layout = QtGui.QGridLayout()
         layout.addWidget(self.help, 0, 0)
-        help_file = open("C:\\Users\\Rex\\PycharmProjects\\ArticleWriter\\gui\\help.writer")
+        help_file = open("help.writer")
         self.help.textCursor().insertHtml(help_file.read())
         self.help.moveCursor(QtGui.QTextCursor.Start)
         self.setWindowTitle("Help")

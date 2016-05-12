@@ -16,9 +16,9 @@ PyQT for frontend
 
 1. Basic text editor feaures like cut, copy, paste, undo, redo, bold, italic, underline, etc.
 
-2. The predicted text is displayed through a ListWidget near the cursor.
+2. The predicted text is displayed through a ListWidget near the cursor by pressing Ctrl+Space
 
-3. Provision to select predicted words through certain key combinations
+3. Highlighted word is inserted in the text by pressing Ctrl+E
 
 
 ##Technical Description:

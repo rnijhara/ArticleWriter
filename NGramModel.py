@@ -45,6 +45,7 @@ class NGramModel:
                 token = ngram[-1]
                 self.cfd[context][token] += 1
                 self.contexts.add(context)
+        print self.cfd
 
         # This step is used to create predictor from contexts set.
         if order == 1:
@@ -95,20 +96,9 @@ class NGramModel:
             maximum_freq_word = self.cfd[context].max()
             freq = self.cfd[context][maximum_freq_word]
             self.cfd[context][token] = freq + 1
-            del self.predictor[context]
         else:
             self.cfd[context][token] += 1
-        if self.order == 1:
-            context = ()
-            predictions = dict(self.cfd[context])
-            words = sorted(predictions.items(), key=itemgetter(1), reverse=True)
-            for i in range(0, 10):
-                self.predictor[context].append(words[i][0])
-        else:
-            predictions = dict(self.cfd[context])
-            words = sorted(predictions.items(), key=itemgetter(1), reverse=True)
-            for i in range(0, len(words)):
-                self.predictor[context].append(words[i][0])
+        self.predictor[context].insert(0, token)
         return self
 
     def save_model(self):

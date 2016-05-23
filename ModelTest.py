@@ -3,16 +3,9 @@ from NGramModel import *
 from BrownDataCleaner import *
 import cPickle
 
-t1 = TimeMonitor()
-t2 = TimeMonitor()
-t1.start(msg='Loading file')
-data = open("ngram.bin", "rb")
-t1.stop()
-t2.start(msg='Preparing model')
-lm = cPickle.load(data)
-t2.stop()
+lm = NGramModel(4, BrownDataCleaner.clean())
 context = ('i', 'love')
-words = ('malviya', 'chutiya', 'hai')
+words = ('i', 'love', 'him')
 lm.backoff.retrain(words)
 n = len(context)
 if n >= 3:

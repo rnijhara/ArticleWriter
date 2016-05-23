@@ -139,9 +139,6 @@ class Main(QtGui.QMainWindow):
 
         fontSize = QtGui.QSpinBox(self)
 
-        # Will display " pt" after each value
-        fontSize.setSuffix("")
-
         fontSize.valueChanged.connect(lambda size: self.text.setFontPointSize(size))
 
         fontSize.setValue(12)

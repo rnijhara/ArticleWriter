@@ -90,16 +90,17 @@ class NGramModel:
             self.backoff = self.backoff.retrain(words[1:])
         else:
             self.backoff = None
-        context = tuple(words[:-1])
-        token = words[-1]
-        if context in self.contexts:
-            maximum_freq_word = self.cfd[context].max()
-            freq = self.cfd[context][maximum_freq_word]
-            self.cfd[context][token] = freq + 1
-        else:
-            self.cfd[context][token] += 1
-        self.predictor[context].insert(0, token)
-        return self
+        rawngrams = ngrams(words, self.order)
+        for ngram in rawngrams:
+            context = tuple(ngram[:-1])
+            token = ngram[-1]
+            if context in self.contexts:
+                maximum_freq_word = self.cfd[context].max()
+                freq = self.cfd[context][maximum_freq_word]
+                self.cfd[context][token] = freq + 1
+            else:
+                self.cfd[context][token] += 1
+            self.predictor[context].insert(0, token)
 
     def save_model(self):
         cPickle.dump(self, open("ngram.bin", "wb"))
